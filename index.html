@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+  <title>Desu Burguer | Faça seu pedido</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <header class="topbar">
+    <a class="brand" href="#">
+      <span class="brand-mark">D</span>
+      <span>DESU <strong>BURGUER</strong></span>
+    </a>
+    <a class="instagram" href="https://instagram.com/desuburguer" target="_blank" rel="noopener">
+      @desuburguer
+    </a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <span class="eyebrow">SEU LANCHE FAVORITO</span>
+        <h1>O sabor que<br><span>você merece.</span></h1>
+        <p>Escolha seus favoritos e faça seu pedido sem complicação.</p>
+        <a href="#cardapio" class="hero-button">VER CARDÁPIO ↓</a>
+      </div>
+      <div class="hero-decoration">DESU<br>BURGUER</div>
+    </section>
+
+    <section class="menu-section" id="cardapio">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">ESCOLHA O SEU</span>
+          <h2>Nosso cardápio</h2>
+        </div>
+        <span class="open-label"><i></i> Faça seu pedido</span>
+      </div>
+
+      <nav class="categories" id="categories"></nav>
+      <div id="products" class="products-grid"></div>
+    </section>
+  </main>
+
+  <button class="cart-bar" id="cartBar" type="button">
+    <span class="cart-icon">🛒</span>
+    <span class="cart-bar-text">
+      <strong>Meu pedido</strong>
+      <small id="cartCount">0 itens</small>
+    </span>
+    <strong id="cartBarTotal">R$ 0,00</strong>
+    <span class="cart-arrow">→</span>
+  </button>
+
+  <!-- CARRINHO -->
+  <div class="overlay" id="cartOverlay"></div>
+  <aside class="drawer" id="cartDrawer">
+    <div class="drawer-header">
+      <div>
+        <span class="eyebrow">SEU PEDIDO</span>
+        <h2>Meu carrinho</h2>
+      </div>
+      <button class="close-button" data-close="cart" aria-label="Fechar">×</button>
+    </div>
+
+    <div id="cartItems" class="cart-items"></div>
+
+    <div class="cart-summary">
+      <div class="summary-line">
+        <span>Subtotal</span>
+        <strong id="cartSubtotal">R$ 0,00</strong>
+      </div>
+      <div class="summary-line">
+        <span>Taxa de entrega</span>
+        <strong>A confirmar</strong>
+      </div>
+      <p class="small-note">A taxa de entrega será confirmada pela loja antes da finalização.</p>
+      <button class="primary-button" id="goCheckout">CONTINUAR</button>
+    </div>
+  </aside>
+
+  <!-- FINALIZAÇÃO -->
+  <div class="overlay" id="checkoutOverlay"></div>
+  <aside class="drawer" id="checkoutDrawer">
+    <div class="drawer-header">
+      <div>
+        <span class="eyebrow">QUASE LÁ</span>
+        <h2>Finalizar pedido</h2>
+      </div>
+      <button class="close-button" data-close="checkout" aria-label="Fechar">×</button>
+    </div>
+
+    <form id="checkoutForm">
+      <label for="customerName">Seu nome</label>
+      <input id="customerName" type="text" placeholder="Digite seu nome" required>
+
+      <label for="customerPhone">Seu telefone</label>
+      <input id="customerPhone" type="tel" placeholder="(00) 00000-0000" required>
+
+      <div class="form-divider"></div>
+      <h3>Como deseja receber?</h3>
+
+      <div class="choice-grid">
+        <label class="choice-card">
+          <input type="radio" name="fulfillment" value="delivery" checked>
+          <span>🛵<strong>Entrega</strong></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="fulfillment" value="pickup">
+          <span>🏪<strong>Retirada</strong></span>
+        </label>
+      </div>
+
+      <div id="deliveryFields">
+        <label for="customerAddress">Endereço completo</label>
+        <input id="customerAddress" type="text" placeholder="Rua, número e bairro">
+
+        <label for="addressReference">Ponto de referência</label>
+        <input id="addressReference" type="text" placeholder="Ex.: perto da praça">
+
+        <button class="secondary-button" type="button" id="locationButton">
+          📍 Compartilhar minha localização
+        </button>
+        <p class="small-note" id="locationStatus">Opcional: você pode compartilhar sua localização para ajudar na entrega.</p>
+      </div>
+
+      <div id="pickupFields" class="hidden">
+        <div class="pickup-info">
+          <strong>Retirada na loja</strong>
+          <p>Seu pedido será preparado para retirada no estabelecimento.</p>
+          <a href="https://maps.app.goo.gl/nPViaJ3Nayq3momMA?g_st=ac" target="_blank" rel="noopener">
+            📍 Ver localização da loja
+          </a>
+        </div>
+      </div>
+
+      <div class="form-divider"></div>
+      <h3>Forma de pagamento</h3>
+
+      <div class="payment-options">
+        <label class="payment-option">
+          <input type="radio" name="payment" value="pix" checked>
+          <span><strong>Pix</strong><small>Pagamento online</small></span>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment" value="card">
+          <span><strong>Cartão</strong><small>Pagar na entrega ou retirada</small></span>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment" value="cash">
+          <span><strong>Dinheiro</strong><small>Pagar na entrega ou retirada</small></span>
+        </label>
+      </div>
+
+      <div id="changeFields" class="hidden">
+        <label class="checkbox-line">
+          <input type="checkbox" id="needsChange">
+          Preciso de troco
+        </label>
+        <div id="changeAmountField" class="hidden">
+          <label for="changeAmount">Troco para quanto?</label>
+          <input id="changeAmount" type="number" min="0.01" step="0.01" placeholder="Ex.: 50,00">
+        </div>
+      </div>
+
+      <div class="checkout-total">
+        <span>Subtotal dos produtos</span>
+        <strong id="checkoutTotal">R$ 0,00</strong>
+      </div>
+      <p class="small-note">A taxa de entrega, se houver, será informada pela loja. O valor acima corresponde aos produtos.</p>
+
+      <button class="primary-button" type="submit" id="continuePayment">
+        CONTINUAR
+      </button>
+    </form>
+  </aside>
+
+  <!-- PAGAMENTO PIX -->
+  <div class="overlay" id="pixOverlay"></div>
+  <aside class="drawer payment-drawer" id="pixDrawer">
+    <div class="drawer-header">
+      <div>
+        <span class="eyebrow">PAGAMENTO ONLINE</span>
+        <h2>Pagamento via Pix</h2>
+      </div>
+      <button class="close-button" data-close="pix" aria-label="Fechar">×</button>
+    </div>
+
+    <div class="pix-content">
+      <div class="pix-total-box">
+        <span>Valor dos produtos</span>
+        <strong id="pixTotal">R$ 0,00</strong>
+      </div>
+
+      <div class="pix-warning">
+        <strong>⚠ ATENÇÃO! NÃO ESQUEÇA</strong>
+        <p>Depois de realizar o pagamento, toque no botão abaixo para enviar seu pedido pelo WhatsApp e encaminhar o comprovante do Pix.</p>
+      </div>
+
+      <div class="qr-area">
+        <div id="pixQrCode"></div>
+        <p>Escaneie o QR Code com o aplicativo do seu banco.</p>
+      </div>
+
+      <label for="pixCode">Ou copie o código Pix:</label>
+      <textarea id="pixCode" readonly rows="4"></textarea>
+      <button class="secondary-button" id="copyPix" type="button">COPIAR CÓDIGO PIX</button>
+
+      <button class="primary-button pix-confirm-button" id="pixPaidButton" type="button">
+        JÁ PAGUEI — ENVIAR PEDIDO
+      </button>
+      <p class="small-note center">O pagamento será conferido manualmente pela loja. O site não confirma o recebimento automaticamente.</p>
+    </div>
+  </aside>
+
+  <!-- CONFIRMAÇÃO DE PEDIDO PARA CARTÃO OU DINHEIRO -->
+  <div class="overlay" id="orderOverlay"></div>
+  <aside class="drawer" id="orderDrawer">
+    <div class="drawer-header">
+      <div>
+        <span class="eyebrow">PEDIDO PRONTO</span>
+        <h2>Enviar pedido</h2>
+      </div>
+      <button class="close-button" data-close="order" aria-label="Fechar">×</button>
+    </div>
+
+    <div class="order-ready">
+      <div class="success-icon">✓</div>
+      <h3 id="orderReadyTitle">Tudo certo!</h3>
+      <p id="orderReadyText">Seu pedido está pronto para ser enviado pelo WhatsApp.</p>
+      <div class="payment-summary" id="orderPaymentSummary"></div>
+      <button class="primary-button" id="sendOrderButton" type="button">
+        ENVIAR PEDIDO PELO WHATSAPP
+      </button>
+      <p class="small-note center">O pagamento será feito pessoalmente na entrega ou na retirada.</p>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
